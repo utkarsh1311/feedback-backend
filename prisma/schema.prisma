@@ -23,7 +23,6 @@ model Admin {
 model Teacher {
   status           String     @default("ACTIVE")
   id               String     @id @default(uuid())
-  username         String     @unique
   password         String
   email            String     @unique
   phone            String

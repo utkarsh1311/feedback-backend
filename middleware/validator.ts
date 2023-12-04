@@ -1,4 +1,4 @@
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import ErrorHandler from "../utils/customError";
 
 const getValidationRules = (entity) => {
@@ -63,7 +63,6 @@ const getValidationRules = (entity) => {
             .exists()
             .isString()
             .withMessage("No student provided"),
-          body("teacher").exists().withMessage("No teacher provided"),
           body("feedback")
             .exists()
             .isString()
@@ -76,6 +75,8 @@ const getValidationRules = (entity) => {
           body("duration").exists().withMessage("Duration is required"),
           body("testScore").isInt().withMessage("Test score must be a number"),
         ],
+        put: [param("id").exists().withMessage("Feedback id is required")],
+        delete: [param("id").exists().withMessage("Feedback id is required")],
       };
     default:
       return {};

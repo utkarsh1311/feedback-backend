@@ -1,12 +1,12 @@
 import cors from "cors";
-import express from "express";
+import express, { Express } from "express";
 import morgan from "morgan";
 import "express-async-errors";
 import errorHandler from "./middleware/errorHandler";
 import feedbackRouter from "./routes/feedbackRouter";
 import teacherRouter from "./routes/teacherRouter";
 
-const app = express();
+const app: Express = express();
 
 app.use(morgan("dev"));
 app.use(cors());

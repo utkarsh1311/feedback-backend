@@ -2,7 +2,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ErrorHandler from "./customError";
 
-const createJWT = user => {
+type UserForToken = {
+	id: string;
+	email: string;
+	role: string;
+};
+
+const createJWT = (user: UserForToken): string => {
 	const token = jwt.sign(
 		{ id: user.id, email: user.email, role: user.role },
 		process.env.JWT_SECRET
@@ -11,7 +17,7 @@ const createJWT = user => {
 	return token;
 };
 
-const protect = (req, res, next) => {
+const protect = (req, _res, next) => {
 	const bearer = req.headers.authorization;
 
 	if (!bearer || !bearer.startsWith("Bearer ")) {
@@ -33,11 +39,11 @@ const protect = (req, res, next) => {
 	}
 };
 
-const comparePassword = (password, passwordHash) => {
+const comparePassword = (password: string, passwordHash: string) => {
 	return bcrypt.compare(password, passwordHash);
 };
 
-const hashPassword = password => {
+const hashPassword = (password: string) => {
 	return bcrypt.hash(password, 10);
 };
 

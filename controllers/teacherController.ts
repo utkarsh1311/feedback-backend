@@ -65,7 +65,7 @@ export const createTeacher = async (req, res, next) => {
 	return res.status(201).json({ success: true, message: "Teacher created" });
 };
 
-export const getAllTeachers = async (req, res, next) => {
+export const getAllTeachers = async (_req, res, next) => {
 	const teachers = await prisma.teacher.findMany();
 	return res.json({ success: true, data: teachers });
 };

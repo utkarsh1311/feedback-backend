@@ -89,7 +89,7 @@ const getValidationRules = (entity: Entity) => {
 	}
 };
 
-const validate = (req, res, next) => {
+const validate = (req, _res, next) => {
 	const errors = validationResult(req);
 	if (errors.isEmpty()) {
 		return next();

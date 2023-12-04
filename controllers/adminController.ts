@@ -2,7 +2,7 @@ import { comparePassword, createJWT, hashPassword } from "../utils/auth";
 import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
-export const getAllAdmins = async (req, res, next) => {
+export const getAllAdmins = async (_req, res) => {
 	const admins = await prisma.admin.findMany();
 	return res.json({ success: true, data: admins });
 };

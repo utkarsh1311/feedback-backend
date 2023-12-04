@@ -1,7 +1,7 @@
 import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
-export const getAllFeedbacks = async (req, res) => {
+export const getAllFeedbacks = async (_req, res) => {
 	const feedbacks = await prisma.feedback.findMany();
 	res.json({ success: true, data: feedbacks });
 };

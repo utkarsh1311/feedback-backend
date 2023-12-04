@@ -7,14 +7,31 @@ import {
   getFeedbackByTeacherId,
   updateFeedback,
 } from "../controllers/feedbackController";
+import { protect } from "../utils/auth";
+import { getValidationRules, validate } from "../middleware/validator";
 
 const feedbackRouter = express.Router();
 
-feedbackRouter.get("/", getAllFeedbacks);
-feedbackRouter.post("/", createFeedback);
-feedbackRouter.get("/:teacherId", getFeedbackByTeacherId);
-feedbackRouter.get("/:id", getFeedbackById);
-feedbackRouter.put("/:id", updateFeedback);
-feedbackRouter.delete("/:id", deleteFeedback);
+feedbackRouter.get("/", [protect], getAllFeedbacks);
+feedbackRouter.get("/:id", [protect], getFeedbackById);
+feedbackRouter.get("/:teacherId", [protect], getFeedbackByTeacherId);
+
+feedbackRouter.post(
+  "/",
+  [protect, getValidationRules("feedback").create, validate],
+  createFeedback
+);
+
+feedbackRouter.put(
+  "/:id",
+  [protect, getValidationRules("feedback").put, validate],
+  updateFeedback
+);
+
+feedbackRouter.delete(
+  "/:id",
+  [protect, getValidationRules("feedback").delete, validate],
+  deleteFeedback
+);
 
 export default feedbackRouter;

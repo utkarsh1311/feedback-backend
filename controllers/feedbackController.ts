@@ -7,7 +7,7 @@ export const getAllFeedbacks = async (req, res) => {
 };
 
 export const getFeedbackByTeacherId = async (req, res, next) => {
-  const { teacherId } = req.user;
+  const { teacherId } = req.params;
 
   const teacher = await prisma.teacher.findUnique({
     where: {
@@ -43,21 +43,88 @@ export const getFeedbackById = async (req, res, next) => {
 };
 
 export const createFeedback = async (req, res, next) => {
+  const { student, feedback, testScore, subject, duration, createdAt } =
+    req.body;
+
+  const weekDayInString = new Date(req.body.createdAt).toLocaleString("en-US", {
+    weekday: "long",
+  });
+
+  const monthInString = new Date(req.body.createdAt).toLocaleString("en-US", {
+    month: "long",
+  });
+
+  const teacher = await prisma.teacher.findUnique({
+    where: {
+      id: req.user.id,
+    },
+  });
+
+  if (!teacher) {
+    return next(new ErrorHandler("Invalid teacher id", 404));
+  }
+
   const newFeedback = await prisma.feedback.create({
     data: {
-      student: req.body.student,
       teacherId: req.user.id,
-      feedback: req.body.feedback,
-      testScore: req.body.testScore,
-      subject: req.body.subject,
-      duration: req.body.duration,
-      createdAt: new Date(req.body.createdAt),
+      teacherName: teacher.name,
+      student,
+      feedback,
+      testScore,
+      subject,
+      duration,
+      createdAt: new Date(createdAt),
+      weekday: weekDayInString,
+      month: monthInString,
     },
   });
 
   return res.status(201).json({ success: true, data: newFeedback });
 };
 
-export const updateFeedback = async (req, res) => {};
+export const updateFeedback = async (req, res, next) => {
+  const { id } = req.params;
 
-export const deleteFeedback = async (req, res) => {};
+  const feedback = await prisma.feedback.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!feedback) {
+    return next(new ErrorHandler("Invalid feedback id", 404));
+  }
+
+  const updatedFeedback = await prisma.feedback.update({
+    where: {
+      id,
+    },
+    data: {
+      ...req.body,
+    },
+  });
+
+  return res.status(200).json({ success: true, data: updatedFeedback });
+};
+
+export const deleteFeedback = async (req, res, next) => {
+  const { id } = req.params;
+
+  const feedback = await prisma.feedback.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!feedback) {
+    return next(new ErrorHandler("Invalid feedback id", 404));
+  }
+
+  await prisma.feedback.delete({
+    where: {
+      id,
+    },
+  });
+
+  return res.status(200).json({ success: true, data: {} });
+};

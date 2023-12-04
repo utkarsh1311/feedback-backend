@@ -35,6 +35,7 @@ model Teacher {
 }
 
 model Feedback {
+  teacherName String
   id        String   @id @default(uuid())
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
@@ -45,4 +46,6 @@ model Feedback {
   testScore Int?
   subject   String
   duration  String
+  weekday   String
+  month     String
 }

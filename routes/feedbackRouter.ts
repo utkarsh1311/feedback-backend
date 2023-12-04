@@ -20,13 +20,13 @@ feedbackRouter.get("/:teacherId", [protect], getFeedbackByTeacherId);
 
 feedbackRouter.post(
 	"/",
-	[protect, getValidationRules("feedback").create, validate],
+	[protect, ...getValidationRules("feedback").create, validate],
 	createFeedback
 );
 
 feedbackRouter.put(
 	"/:id",
-	[protect, checkRole("ADMIN"), getValidationRules("feedback").put, validate],
+	[protect, checkRole("ADMIN"), ...getValidationRules("feedback").put, validate],
 	updateFeedback
 );
 
@@ -35,7 +35,7 @@ feedbackRouter.delete(
 	[
 		protect,
 		checkRole("ADMIN"),
-		getValidationRules("feedback").delete,
+		...getValidationRules("feedback").delete,
 		validate
 	],
 	deleteFeedback

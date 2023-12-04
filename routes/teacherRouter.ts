@@ -16,26 +16,35 @@ teacherRouter.get("/", [protect, checkRole("ADMIN")], getAllTeachers);
 
 teacherRouter.post(
 	"/login",
-	[getValidationRules("teacher").login, validate],
+	[...getValidationRules("teacher").login, validate],
 	teacherLogin
 );
 
 teacherRouter.post(
 	"/",
-	[protect, checkRole("ADMIN"), getValidationRules("teacher").create, validate],
+	[
+		protect,
+		checkRole("ADMIN"),
+		...getValidationRules("teacher").create,
+		validate
+	],
 	createTeacher
 );
 
 teacherRouter.put(
 	"/:id",
-	[protect, checkRole("ADMIN"), getValidationRules("teacher").put],
+	[protect, checkRole("ADMIN"), ...getValidationRules("teacher").put, validate],
 	updateTeacherDetails
 );
 
 teacherRouter.delete(
 	"/:id",
-	[protect, checkRole("ADMIN")],
-	getValidationRules("teacher").delete,
+	[
+		protect,
+		checkRole("ADMIN"),
+		...getValidationRules("teacher").delete,
+		validate
+	],
 	deleteTeacher
 );
 

@@ -1,7 +1,9 @@
 import { body, param, validationResult } from "express-validator";
 import ErrorHandler from "../utils/customError";
 
-const getValidationRules = entity => {
+type Entity = "teacher" | "admin" | "feedback";
+
+const getValidationRules = (entity: Entity) => {
 	switch (entity) {
 		case "teacher":
 			return {

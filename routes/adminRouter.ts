@@ -16,23 +16,23 @@ adminRouter.get("/", [protect, checkRole("ADMIN")], getAllAdmins);
 
 adminRouter.get(
 	"/:id",
-	[protect, checkRole("ADMIN"), getValidationRules("admin").getById, validate],
+	[protect, checkRole("ADMIN"), ...getValidationRules("admin").getById, validate],
 	getAdminById
 );
 adminRouter.post(
 	"/",
-	[protect, checkRole("ADMIN"), getValidationRules("admin").create, validate],
+	[protect, checkRole("ADMIN"), ...getValidationRules("admin").create, validate],
 	createAdmin
 );
 
 adminRouter.put(
 	"/:id",
-	[protect, checkRole("ADMIN"), getValidationRules("admin").put],
+	[protect, checkRole("ADMIN"), ...getValidationRules("admin").put],
 	updateAdminDetails
 );
 adminRouter.post(
 	"/login",
-	[getValidationRules("admin").login, validate],
+	[...getValidationRules("admin").login, validate],
 	adminLogin
 );
 

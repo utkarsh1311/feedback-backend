@@ -6,13 +6,24 @@ import {
 } from "../controllers/teacherController";
 import { protect } from "../utils/auth";
 import checkRole from "../middleware/checkRole";
+import { getValidationRules, validate } from "../middleware/validator";
 
 const teacherRouter = express.Router();
 
-teacherRouter.post("/login", teacherLogin);
 
-teacherRouter.get("/", [protect, checkRole("ADMIN")], getAllTeachers);
-teacherRouter.post("/", [protect, checkRole("ADMIN")], createTeacher);
 
+teacherRouter.get("/", getAllTeachers);
+
+teacherRouter.post(
+  "/login",
+  [getValidationRules("teacher").login, validate],
+  teacherLogin
+);
+
+teacherRouter.post(
+  "/",
+  [protect, checkRole("ADMIN"), getValidationRules("teacher").create, validate],
+  createTeacher
+);
 
 export default teacherRouter;

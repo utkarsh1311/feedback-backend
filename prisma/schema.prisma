@@ -15,8 +15,8 @@ model Admin {
   email     String   @unique
   password  String
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
   role      String   @default("ADMIN")
 }
 
@@ -27,8 +27,8 @@ model Teacher {
   email            String     @unique
   phone            String
   name             String
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  createdAt        DateTime   @default(now()) @db.Date
+  updatedAt        DateTime   @updatedAt @db.Date
   role             String     @default("TEACHER")
   feedbacks        Feedback[]
   assignedStudents String[]
@@ -36,8 +36,8 @@ model Teacher {
 
 model Feedback {
   id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt @db.Date
   student   String
   teacher   Teacher  @relation(fields: [teacherId], references: [id])
   teacherId String

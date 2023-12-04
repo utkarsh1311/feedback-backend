@@ -1,7 +1,7 @@
 import { ValidationError } from "express-validator";
 import ErrorHandler from "../utils/customError";
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, res, _next) => {
 	// Check if it's a validation error
 	if (err.validationErrors) {
 		return res.status(err.statusCode).json({

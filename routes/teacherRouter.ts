@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  createTeacher,
-  deleteTeacher,
-  getAllTeachers,
-  teacherLogin,
-  updateTeacherDetails,
+	createTeacher,
+	deleteTeacher,
+	getAllTeachers,
+	teacherLogin,
+	updateTeacherDetails
 } from "../controllers/teacherController";
 import { protect } from "../utils/auth";
 import checkRole from "../middleware/checkRole";
@@ -15,28 +15,28 @@ const teacherRouter = express.Router();
 teacherRouter.get("/", [protect, checkRole("ADMIN")], getAllTeachers);
 
 teacherRouter.post(
-  "/login",
-  [getValidationRules("teacher").login, validate],
-  teacherLogin
+	"/login",
+	[getValidationRules("teacher").login, validate],
+	teacherLogin
 );
 
 teacherRouter.post(
-  "/",
-  [protect, checkRole("ADMIN"), getValidationRules("teacher").create, validate],
-  createTeacher
+	"/",
+	[protect, checkRole("ADMIN"), getValidationRules("teacher").create, validate],
+	createTeacher
 );
 
 teacherRouter.put(
-  "/:id",
-  [protect, checkRole("ADMIN"), getValidationRules("teacher").put],
-  updateTeacherDetails
+	"/:id",
+	[protect, checkRole("ADMIN"), getValidationRules("teacher").put],
+	updateTeacherDetails
 );
 
 teacherRouter.delete(
-  "/:id",
-  [protect, checkRole("ADMIN")],
-  getValidationRules("teacher").delete,
-  deleteTeacher
+	"/:id",
+	[protect, checkRole("ADMIN")],
+	getValidationRules("teacher").delete,
+	deleteTeacher
 );
 
 export default teacherRouter;

@@ -3,132 +3,132 @@ import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
 export const teacherLogin = async (req, res, next) => {
-  const teacher = await prisma.teacher.findUnique({
-    where: {
-      email: req.body.email,
-    },
-  });
+	const teacher = await prisma.teacher.findUnique({
+		where: {
+			email: req.body.email
+		}
+	});
 
-  if (!teacher) {
-    return next(new ErrorHandler("Invalid credentials", 401));
-  }
+	if (!teacher) {
+		return next(new ErrorHandler("Invalid credentials", 401));
+	}
 
-  const passwordIsCorrect = await comparePassword(
-    req.body.password,
-    teacher.password
-  );
+	const passwordIsCorrect = await comparePassword(
+		req.body.password,
+		teacher.password
+	);
 
-  if (!passwordIsCorrect) {
-    return next(new ErrorHandler("Invalid credentials", 401));
-  }
+	if (!passwordIsCorrect) {
+		return next(new ErrorHandler("Invalid credentials", 401));
+	}
 
-  const userForToken = {
-    id: teacher.id,
-    email: teacher.email,
-    role: teacher.role,
-  };
+	const userForToken = {
+		id: teacher.id,
+		email: teacher.email,
+		role: teacher.role
+	};
 
-  const token = createJWT(userForToken);
+	const token = createJWT(userForToken);
 
-  return res.status(200).json({
-    success: true,
-    token,
-  });
+	return res.status(200).json({
+		success: true,
+		token
+	});
 };
 
 export const createTeacher = async (req, res, next) => {
-  const teacher = await prisma.teacher.findUnique({
-    where: {
-      email: req.body.email,
-    },
-  });
+	const teacher = await prisma.teacher.findUnique({
+		where: {
+			email: req.body.email
+		}
+	});
 
-  if (teacher) {
-    return next(
-      new ErrorHandler("Teacher with provided mail already exists", 400)
-    );
-  }
+	if (teacher) {
+		return next(
+			new ErrorHandler("Teacher with provided mail already exists", 400)
+		);
+	}
 
-  const hashedPassword = await hashPassword(req.body.password);
+	const hashedPassword = await hashPassword(req.body.password);
 
-  await prisma.teacher.create({
-    data: {
-      email: req.body.email,
-      password: hashedPassword,
-      role: "TEACHER",
-      assignedStudents: req.body.assignedStudents || [],
-      phone: req.body.phone,
-      name: req.body.name,
-    },
-  });
+	await prisma.teacher.create({
+		data: {
+			email: req.body.email,
+			password: hashedPassword,
+			role: "TEACHER",
+			assignedStudents: req.body.assignedStudents || [],
+			phone: req.body.phone,
+			name: req.body.name
+		}
+	});
 
-  return res.status(201).json({ success: true, message: "Teacher created" });
+	return res.status(201).json({ success: true, message: "Teacher created" });
 };
 
 export const getAllTeachers = async (req, res, next) => {
-  const teachers = await prisma.teacher.findMany();
-  return res.json({ success: true, data: teachers });
+	const teachers = await prisma.teacher.findMany();
+	return res.json({ success: true, data: teachers });
 };
 
 export const getTeacherById = async (req, res, next) => {
-  const { id } = req.params;
+	const { id } = req.params;
 
-  const teacher = await prisma.teacher.findUnique({
-    where: {
-      id,
-    },
-  });
+	const teacher = await prisma.teacher.findUnique({
+		where: {
+			id
+		}
+	});
 
-  if (!teacher) {
-    return next(new ErrorHandler("Teacher not found", 404));
-  }
+	if (!teacher) {
+		return next(new ErrorHandler("Teacher not found", 404));
+	}
 
-  return res.json({ success: true, data: teacher });
+	return res.json({ success: true, data: teacher });
 };
 
 export const updateTeacherDetails = async (req, res, next) => {
-  const { id } = req.params;
+	const { id } = req.params;
 
-  const teacher = await prisma.teacher.findUnique({
-    where: {
-      id,
-    },
-  });
+	const teacher = await prisma.teacher.findUnique({
+		where: {
+			id
+		}
+	});
 
-  if (!teacher) {
-    return next(new ErrorHandler("Teacher not found", 404));
-  }
+	if (!teacher) {
+		return next(new ErrorHandler("Teacher not found", 404));
+	}
 
-  const updatedTeacher = await prisma.teacher.update({
-    where: {
-      id,
-    },
-    data: {
-      ...req.body,
-    },
-  });
+	const updatedTeacher = await prisma.teacher.update({
+		where: {
+			id
+		},
+		data: {
+			...req.body
+		}
+	});
 
-  return res.json({ success: true, data: updatedTeacher });
+	return res.json({ success: true, data: updatedTeacher });
 };
 
 export const deleteTeacher = async (req, res, next) => {
-  const { id } = req.params;
+	const { id } = req.params;
 
-  const teacher = await prisma.teacher.findUnique({
-    where: {
-      id,
-    },
-  });
+	const teacher = await prisma.teacher.findUnique({
+		where: {
+			id
+		}
+	});
 
-  if (!teacher) {
-    return next(new ErrorHandler("Teacher not found", 404));
-  }
+	if (!teacher) {
+		return next(new ErrorHandler("Teacher not found", 404));
+	}
 
-  await prisma.teacher.delete({
-    where: {
-      id,
-    },
-  });
+	await prisma.teacher.delete({
+		where: {
+			id
+		}
+	});
 
-  return res.json({ success: true, data: {} });
-}
+	return res.json({ success: true, data: {} });
+};

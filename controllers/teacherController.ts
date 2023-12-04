@@ -3,7 +3,6 @@ import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
 export const teacherLogin = async (req, res, next) => {
-  
   const teacher = await prisma.teacher.findUnique({
     where: {
       email: req.body.email,
@@ -86,3 +85,50 @@ export const getTeacherById = async (req, res, next) => {
 
   return res.json({ success: true, data: teacher });
 };
+
+export const updateTeacherDetails = async (req, res, next) => {
+  const { id } = req.params;
+
+  const teacher = await prisma.teacher.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!teacher) {
+    return next(new ErrorHandler("Teacher not found", 404));
+  }
+
+  const updatedTeacher = await prisma.teacher.update({
+    where: {
+      id,
+    },
+    data: {
+      ...req.body,
+    },
+  });
+
+  return res.json({ success: true, data: updatedTeacher });
+};
+
+export const deleteTeacher = async (req, res, next) => {
+  const { id } = req.params;
+
+  const teacher = await prisma.teacher.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!teacher) {
+    return next(new ErrorHandler("Teacher not found", 404));
+  }
+
+  await prisma.teacher.delete({
+    where: {
+      id,
+    },
+  });
+
+  return res.json({ success: true, data: {} });
+}

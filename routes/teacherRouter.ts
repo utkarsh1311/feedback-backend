@@ -3,6 +3,7 @@ import {
 	createTeacher,
 	deleteTeacher,
 	getAllTeachers,
+	getTeacherById,
 	teacherLogin,
 	updateTeacherDetails
 } from "../controllers/teacherController";
@@ -13,6 +14,17 @@ import { getValidationRules, validate } from "../middleware/validator";
 const teacherRouter = express.Router();
 
 teacherRouter.get("/", [protect, checkRole("ADMIN")], getAllTeachers);
+
+teacherRouter.get(
+	"/:id",
+	[
+		protect,
+		checkRole("ADMIN"),
+		...getValidationRules("teacher").getById,
+		validate
+	],
+	getTeacherById
+);
 
 teacherRouter.post(
 	"/login",

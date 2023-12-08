@@ -31,6 +31,7 @@ const getValidationRules = (entity: Entity) => {
 						.isLength({ min: 6 })
 						.withMessage("Password must be at least 6 characters long")
 				],
+				getById: [param("id").exists().withMessage("Teacher id is required")],
 				put: [param("id").exists().withMessage("Teacher id is required")],
 				delete: [param("id").exists().withMessage("Teacher id is required")]
 			};

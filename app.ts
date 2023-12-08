@@ -5,6 +5,7 @@ import "express-async-errors";
 import errorHandler from "./middleware/errorHandler";
 import feedbackRouter from "./routes/feedbackRouter";
 import teacherRouter from "./routes/teacherRouter";
+import adminRouter from "./routes/adminRouter";
 
 const app: Express = express();
 
@@ -19,6 +20,7 @@ app.get("/", (_req, res) => {
 
 app.use("/feedbacks", feedbackRouter);
 app.use("/teachers", teacherRouter);
+app.use("/admin", adminRouter);
 
 app.use(errorHandler);
 

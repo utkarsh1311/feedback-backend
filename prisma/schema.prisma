@@ -43,9 +43,9 @@ model Feedback {
   teacher   Teacher  @relation(fields: [teacherId], references: [id])
   teacherId String
   feedback  String
-  testScore Int?
+  testScore Int
   subject   String
-  duration  String
+  duration  Int
   weekday   String
   month     String
 }

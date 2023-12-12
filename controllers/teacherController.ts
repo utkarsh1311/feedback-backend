@@ -66,7 +66,12 @@ export const createTeacher = async (req, res, next) => {
 };
 
 export const getAllTeachers = async (_req, res) => {
-	const teachers = await prisma.teacher.findMany();
+	const teachers = await prisma.teacher.findMany({
+		include: {
+			feedbacks: true
+		}
+
+	});
 	return res.json({ success: true, data: teachers });
 };
 
@@ -76,6 +81,9 @@ export const getTeacherById = async (req, res, next) => {
 	const teacher = await prisma.teacher.findUnique({
 		where: {
 			id
+		},
+		include: {
+			feedbacks: true
 		}
 	});
 

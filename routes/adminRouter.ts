@@ -21,7 +21,7 @@ adminRouter.get(
 );
 adminRouter.post(
 	"/",
-	// [protect, checkRole("ADMIN"), ...getValidationRules("admin").create, validate],
+	[protect, checkRole("ADMIN"), ...getValidationRules("admin").create, validate],
 	createAdmin
 );
 

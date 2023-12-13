@@ -43,7 +43,7 @@ export const getFeedbackById = async (req, res, next) => {
 };
 
 export const createFeedback = async (req, res, next) => {
-	const { student, feedback, testScore, subject, duration, createdAt } =
+	const { student, feedback, testScore, subject, duration, createdAt, topic } =
 		req.body;
 
 	const weekDayInString = new Date(req.body.createdAt).toLocaleString("en-US", {
@@ -75,7 +75,8 @@ export const createFeedback = async (req, res, next) => {
 			duration,
 			createdAt: new Date(createdAt),
 			weekday: weekDayInString,
-			month: monthInString
+			month: monthInString,
+			topic
 		}
 	});
 

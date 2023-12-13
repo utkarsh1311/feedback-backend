@@ -82,17 +82,17 @@ export const adminLogin = async (req, res, next) => {
 };
 
 export const createAdmin = async (req, res, next) => {
-	const admin = await prisma.admin.findUnique({
-		where: {
-			email: req.body.email
-		}
-	});
+	// const admin = await prisma.admin.findUnique({
+	// 	where: {
+	// 		email: req.body.email
+	// 	}
+	// // });
 
-	if (admin) {
-		return next(
-			new ErrorHandler("Admin with provided mail already exists", 400)
-		);
-	}
+	// if (admin) {
+	// 	return next(
+	// 		new ErrorHandler("Admin with provided mail already exists", 400)
+	// 	);
+	// }
 
 	const hashedPassword = await hashPassword(req.body.password);
 

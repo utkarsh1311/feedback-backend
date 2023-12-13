@@ -36,16 +36,17 @@ model Teacher {
 
 model Feedback {
   teacherName String
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @db.Date
-  updatedAt DateTime @updatedAt @db.Date
-  student   String
-  teacher   Teacher  @relation(fields: [teacherId], references: [id])
-  teacherId String
-  feedback  String
-  testScore Int
-  subject   String
-  duration  Int
-  weekday   String
-  month     String
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now()) @db.Date
+  updatedAt   DateTime @updatedAt @db.Date
+  student     String
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId   String
+  feedback    String
+  testScore   Int?
+  subject     String
+  duration    Int
+  weekday     String
+  month       String
+  topic       String
 }

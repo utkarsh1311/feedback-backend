@@ -10,6 +10,7 @@ import {
 import { protect } from "../utils/auth";
 import checkRole from "../middleware/checkRole";
 import { getValidationRules, validate } from "../middleware/validator";
+import { checkTeacherStatus } from "../middleware/checkTeacherStatus";
 
 const teacherRouter = express.Router();
 
@@ -28,7 +29,7 @@ teacherRouter.get(
 
 teacherRouter.post(
 	"/login",
-	[...getValidationRules("teacher").login, validate],
+	[...getValidationRules("teacher").login, validate, checkTeacherStatus],
 	teacherLogin
 );
 

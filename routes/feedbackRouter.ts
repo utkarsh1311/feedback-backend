@@ -10,17 +10,18 @@ import {
 import { protect } from "../utils/auth";
 import { getValidationRules, validate } from "../middleware/validator";
 import checkRole from "../middleware/checkRole";
+import { checkTeacherStatus } from "../middleware/checkTeacherStatus";
 
 const feedbackRouter = express.Router();
 
 feedbackRouter.get("/", [protect, checkRole("ADMIN")], getAllFeedbacks);
 
-feedbackRouter.get("/:id", [protect], getFeedbackById);
-feedbackRouter.get("/:teacherId", [protect], getFeedbackByTeacherId);
+feedbackRouter.get("/:id", [protect, checkTeacherStatus], getFeedbackById);
+feedbackRouter.get("/:teacherId", [protect, checkTeacherStatus], getFeedbackByTeacherId);
 
 feedbackRouter.post(
 	"/",
-	[protect, ...getValidationRules("feedback").create, validate],
+	[protect, checkTeacherStatus, ...getValidationRules("feedback").create, validate],
 	createFeedback
 );
 

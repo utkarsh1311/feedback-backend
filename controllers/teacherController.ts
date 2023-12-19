@@ -13,6 +13,10 @@ export const teacherLogin = async (req, res, next) => {
 		return next(new ErrorHandler("Invalid credentials", 401));
 	}
 
+	if (teacher.status !== "ACTIVE") {
+		return next(new ErrorHandler("Teacher is not active", 403));
+	}
+
 	const passwordIsCorrect = await comparePassword(
 		req.body.password,
 		teacher.password
@@ -70,7 +74,6 @@ export const getAllTeachers = async (_req, res) => {
 		include: {
 			feedbacks: true
 		}
-
 	});
 	return res.json({ success: true, data: teachers });
 };
@@ -107,13 +110,16 @@ export const updateTeacherDetails = async (req, res, next) => {
 		return next(new ErrorHandler("Teacher not found", 404));
 	}
 
+	if (req.body.password) {
+		const hashedPassword = await hashPassword(req.body.password);
+		req.body.password = hashedPassword;
+	}
+
 	const updatedTeacher = await prisma.teacher.update({
 		where: {
 			id
 		},
-		data: {
-			...req.body
-		}
+		data: req.body
 	});
 
 	return res.json({ success: true, data: updatedTeacher });

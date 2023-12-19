@@ -80,7 +80,10 @@ const getValidationRules = (entity: Entity) => {
 						.withMessage("Subject is required"),
 					body("createdAt").exists().withMessage("Creation Date is required"),
 					body("duration").exists().withMessage("Duration is required"),
-					body("testScore").isInt().withMessage("Test score must be a number")
+					body("testScore")
+						.optional({ nullable: true })
+						.isInt()
+						.withMessage("Test score must be a number")
 				],
 				put: [param("id").exists().withMessage("Feedback id is required")],
 				delete: [param("id").exists().withMessage("Feedback id is required")]

@@ -20,7 +20,6 @@ teacherRouter.get(
 	"/:id",
 	[
 		protect,
-		checkRole("ADMIN"),
 		...getValidationRules("teacher").getById,
 		validate
 	],

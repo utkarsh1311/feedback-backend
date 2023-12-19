@@ -29,7 +29,7 @@ teacherRouter.get(
 
 teacherRouter.post(
 	"/login",
-	[...getValidationRules("teacher").login, validate, checkTeacherStatus],
+	[...getValidationRules("teacher").login, validate],
 	teacherLogin
 );
 

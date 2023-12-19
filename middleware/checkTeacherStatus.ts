@@ -2,9 +2,11 @@ import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
 export const checkTeacherStatus = async (req, res, next) => {
+	const { id } = req.user;
+
 	const teacher = await prisma.teacher.findUnique({
 		where: {
-			id: req.user.id
+			id
 		}
 	});
 

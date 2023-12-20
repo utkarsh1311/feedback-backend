@@ -11,7 +11,10 @@ type UserForToken = {
 const createJWT = (user: UserForToken): string => {
 	const token = jwt.sign(
 		{ id: user.id, email: user.email, role: user.role },
-		process.env.JWT_SECRET
+		process.env.JWT_SECRET,
+		{
+			expiresIn: "7d",
+		}
 	);
 
 	return token;

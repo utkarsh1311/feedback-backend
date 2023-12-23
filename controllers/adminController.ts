@@ -79,7 +79,8 @@ export const adminLogin = async (req, res, next) => {
 		success: true,
 		token,
 		data: {
-			id: admin.id
+			id: admin.id,
+			role: admin.role,
 		}
 	});
 };

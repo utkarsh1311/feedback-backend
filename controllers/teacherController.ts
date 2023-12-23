@@ -38,7 +38,8 @@ export const teacherLogin = async (req, res, next) => {
 		success: true,
 		token,
 		data: {
-			id: teacher.id
+			id: teacher.id,
+			role: teacher.role
 		}
 	});
 };

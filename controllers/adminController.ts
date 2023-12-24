@@ -77,10 +77,10 @@ export const adminLogin = async (req, res, next) => {
 
 	return res.status(200).json({
 		success: true,
-		token,
 		data: {
+			token,
 			id: admin.id,
-			role: admin.role,
+			role: admin.role
 		}
 	});
 };

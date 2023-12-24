@@ -36,8 +36,8 @@ export const teacherLogin = async (req, res, next) => {
 
 	return res.status(200).json({
 		success: true,
-		token,
 		data: {
+			token,
 			id: teacher.id,
 			role: teacher.role
 		}

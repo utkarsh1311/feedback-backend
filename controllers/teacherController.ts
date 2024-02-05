@@ -3,6 +3,7 @@ import ErrorHandler from "../utils/customError";
 import prisma from "../utils/db";
 
 export const teacherLogin = async (req, res, next) => {
+
 	const teacher = await prisma.teacher.findUnique({
 		where: {
 			email: req.body.email

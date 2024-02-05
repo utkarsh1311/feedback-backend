@@ -7,7 +7,7 @@
 		"build": "tsc -p tsconfig.json",
 		"start": "node dist/index.js",
 		"format": "npx prettier . --write",
-		"dev": "ts-node index.ts",
+		"dev": "ts-node index.ts --watch",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],

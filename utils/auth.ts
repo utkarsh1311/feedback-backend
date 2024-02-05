@@ -43,7 +43,7 @@ const protect = (req, _res, next) => {
 };
 
 const comparePassword = (password: string, passwordHash: string): boolean => {
-	return bcrypt.compare(password, passwordHash);
+	return bcrypt.compare(password, passwordHash); 
 };
 
 const hashPassword = (password: string): string => {
